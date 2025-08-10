@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Artikelverwaltung</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+	<div class="container">
+
+		<div class="form-container">
+			<h2>Artikel hinzufügen</h2>
+
+			<div th:if="${errorMessage}" class="alert" th:text="${errorMessage}"></div>
+
+			<form th:action="@{/addArtikel}" method="post" th:object="${artikel}">
+				<label>Name: 
+					<input type="text" th:field="*{name}" required />
+				</label> 
+				<label>Preis: 
+					<input type="number" step="0.01"
+					th:field="*{preis}" required />
+				</label> 
+				<label>Kategorie: 
+					<select th:field="*{kategorie}">
+						<option value="Hausschuhe">Hausschuhe</option>
+						<option value="Stiefel">Stiefel</option>
+						<option value="Sandalen">Sandalen</option>
+					</select>
+				</label> 
+				<label> 
+					<input type="checkbox" th:field="*{verfuegbarkeit}" />
+					Verfügbar
+				</label>
+					<label>Verfügbar ab: 
+					<input type="date" th:field="*{verfuegbarAb}"
+					th:attr="min=${today}" />
+					<div th:if="${#fields.hasErrors('verfuegbarAb')}" th:errors="*{verfuegbarAb}" class="error"></div>
+				</label>
+
+				<button type="submit">Hinzufügen</button>
+			</form>
+		</div>
+
+		<div class="table-container">
+			<h2>Vorhandene Artikel</h2>
+			<table>
+				<thead>
+					<tr>
+						<th>Name</th>
+						<th>Preis</th>
+						<th>Kategorie</th>
+						<th>Verfügbar</th>
+						<th>Verfügbar ab</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="a : ${sortiment}"
+						th:class="${a.verfuegbarkeit} ? 'verfuegbar' : 'ausverkauft'">
+						<td th:text="${a.name}"></td>
+						<td
+							th:text="${T(java.lang.String).format('%.2f', a.preis)} + ' €'"></td>
+						<td th:text="${a.kategorie}"></td>
+						<td th:text="${a.verfuegbarkeit} ? 'Ja' : 'Nein'"></td>
+						<td th:text="${#temporals.format(a.verfuegbarAb, 'dd.MM.yyyy')}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+</body>
+</html>
