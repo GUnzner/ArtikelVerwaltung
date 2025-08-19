@@ -59,8 +59,7 @@
 					<tr th:each="a : ${sortiment}"
 						th:class="${a.verfuegbarkeit} ? 'verfuegbar' : 'ausverkauft'">
 						<td th:text="${a.name}"></td>
-						<td
-							th:text="${T(java.lang.String).format('%.2f', a.preis)} + ' €'"></td>
+						<td th:text="${T(java.lang.String).format('%.2f', a.preis)} + ' €'"></td>
 						<td th:text="${a.kategorie}"></td>
 						<td th:text="${a.verfuegbarkeit} ? 'Ja' : 'Nein'"></td>
 						<td th:text="${#temporals.format(a.verfuegbarAb, 'dd.MM.yyyy')}"></td>

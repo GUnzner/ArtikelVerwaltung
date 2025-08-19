@@ -53,7 +53,7 @@ public class ArtikelController {
 	    
 		if (artikelService.isMaxLimitReached(MAX_ARTIKEL)) {
 	        redirectAttributes.addFlashAttribute("errorMessage", "Maximale Anzahl von Artikeln erreicht (10).");
-	        redirectAttributes.addFlashAttribute("artikel", artikel); 
+	        model.addAttribute("sortiment", artikelService.getSortiment());
 	        return "redirect:/";
 	    }
 
